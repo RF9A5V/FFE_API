@@ -1,0 +1,15 @@
+h3 Create an Item
+
+form(method="post", action="/items/create")
+  div
+    input(type="text", name="name")
+  div
+    textarea(name="description")
+  div
+    input(type="text", name="location")
+  div
+    select(name="category")
+      option(value="0") Food
+      option(value="1") Furniture
+      option(value="2") Electronics
+  input(type="submit")
