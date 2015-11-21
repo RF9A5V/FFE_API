@@ -17,13 +17,6 @@ module.exports = function (grunt) {
         file: 'app.js'
       }
     },
-    sass: {
-      dist: {
-        files: {
-          'public/css/style.css': 'public/css/style.scss'
-        }
-      }
-    },
     watch: {
       options: {
         nospawn: true,
@@ -41,7 +34,6 @@ module.exports = function (grunt) {
         files: [
           'public/css/*.scss'
         ],
-        tasks: ['sass'],
         options: {
           livereload: reloadPort
         }
@@ -75,7 +67,6 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('default', [
-    'sass',
     'develop',
     'watch'
   ]);
