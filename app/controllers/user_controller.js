@@ -28,8 +28,8 @@ router.post('/create', function(req, res, next){
     if(err){
       return res.send(err);
     }
-
-    res.send({ message: 'New user created' })
+    req.session.uid = user._id;
+    res.send({ status: "success", message: 'New user created' })
   })
 })
 
