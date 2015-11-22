@@ -46,3 +46,8 @@ router.post('/', function(req, res, next){
 
   })
 })
+
+router.get('/destroy', function(req, res, next){
+  req.session.uid = undefined;
+  res.json({ status: "success", message: "Successfully logged out" })
+})
