@@ -32,6 +32,13 @@ module.exports = function(app, config) {
     cookie: { secure: true }
   }));
 
+  var enableCORS = function(req, res, next){
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+  }
+
+  app.use(enableCORS);
+
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
   controllers.forEach(function (controller) {
     require(controller)(app);
