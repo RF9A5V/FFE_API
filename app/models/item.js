@@ -8,7 +8,7 @@ var ItemSchema = new Schema({
   description: String,
   location: String,
   owner: { type: Schema.Types.ObjectId, ref: 'User' },
-  category: Number,
+  category: String,
   is_taken: Boolean,
   interested_users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   tags: [String]

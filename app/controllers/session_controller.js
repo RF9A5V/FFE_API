@@ -10,7 +10,7 @@ module.exports = function (app) {
 };
 
 router.get('/', function(req, res, next){
-  if(uid != undefined){
+  if(req.session.uid != undefined){
     res.json({ status: "error", message: "You are already logged in!" })
     next();
   }
@@ -29,11 +29,10 @@ router.get('/list', function (req, res, next) {
 router.post('/', function(req, res, next){
   var email = req.body.email,
       password = req.body.password;
-      uid = req.body.uid;
 
     console.log("Email: " + email + 'password' + password);
 
-  if(uid != undefined){
+  if(req.session.uid != undefined){
     console.log("You are already logged in!");
     res.json({ status: "error", message: "You are already logged in!" })
     next();
@@ -60,6 +59,6 @@ router.post('/', function(req, res, next){
 })
 
 router.post('/destroy', function(req, res, next){
-  uid = undefined;
+  req.session.uid = undefined;
   res.json({ status: "success", message: "Successfully logged out" })
 });
