@@ -1,13 +1,11 @@
-
-
 var express = require('express'),
   config = require('./config/config'),
   glob = require('glob'),
-  mongoose = require('mongoose');
+  mongoose = require('mongoose'),
+  cfenv = require('cfenv');
 
-if(process.env.VCAP_APPLICATION != undefined){
-  process.env.NODE_ENV = "production";
-}
+appEnv = cfenv.getAppEnv();
+instance = appEnv.app.instance_index || 0
 
 mongoose.connect(config.db);
 var db = mongoose.connection;
@@ -23,9 +21,8 @@ var app = express();
 
 require('./config/express')(app, config, mongoose);
 
-var port = (process.env.VCAP_APP_PORT || 1337);
-var host = (process.env.VCAP_APP_HOST || 'localhost');
+var port = appEnv.port;
 
 app.listen(port, function () {
-  console.log('Express server listening on port ' + port);
+  console.log('Express server listening on port ' + appEnv.url);
 });

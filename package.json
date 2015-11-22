@@ -20,7 +20,8 @@
     "mongoose": "^4.1.2",
     "morgan": "^1.6.1",
     "password-hash": "^1.2.2",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "cfenv": "*"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
