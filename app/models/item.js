@@ -4,13 +4,14 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 var ItemSchema = new Schema({
-  name: String,
+  title: String,
   description: String,
   location: String,
   owner: { type: Schema.Types.ObjectId, ref: 'User' },
-  category: String,
+  category: Number,
   is_taken: Boolean,
-  interested_count: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+  interested_users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  tags: [String]
 });
 
 ItemSchema.virtual('date')
