@@ -18,6 +18,15 @@ router.get('/', function(req, res, next){
   res.render('sessions/new')
 })
 
+router.get('/list', function (req, res, next) {
+  Session.find(function(err, sessions){
+    if(err){
+      return res.send(err);
+    }
+    res.json(sessions);
+  });
+});
+
 router.post('/', function(req, res, next){
   var email = req.body.email,
       password = req.body.password;
