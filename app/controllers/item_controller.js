@@ -13,35 +13,40 @@ router.get('/', function (req, res, next) {
     if(err){
       return res.send(err);
     }
-
+    console.log(req.session)
     res.json(items)
 
   })
 });
 
 router.get('/new', function(req, res, next){
-  
+
   res.render('items/new')
 })
 
 router.post('/create', function(req, res, next){
-  var item = new Item(req.body);
-  item.save(function(err){
-    if (err){
-      return res.send(err)
-    }
-    res.send({message: 'Item created!'})
-  })
+
+  if(req.session.user == undefined) {
+    console.log(req.session)
+    res.send("It busted")
+  }
+  else {
+    var item = new Item(req.body);
+    item.owner = req.session.user._id
+    item.save(function(err){
+      if (err){
+        return res.send(err)
+      }
+      res.send({message: 'Item created!'})
+    })
+  }
 })
 
 router.get('/:id', function(req, res, next){
-  Item.findOne({ _id: req.params.id }, function(err, item){
+  Item.findOne({ '_id': req.params.id }, function(err, item){
     if(err) res.send(err)
-    console.log(req.params.id)
-    User.findOne({ _id: item.owner }, function(err, user){
+    User.findOne({ '_id': item.owner }, function(err, user){
       if(err) res.send(err)
-      console.log(item.owner)
-      console.log(user)
       res.render('items/show', {
         item: item,
         owner: owner

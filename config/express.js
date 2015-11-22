@@ -29,8 +29,6 @@ module.exports = function(app, config) {
   app.use(methodOverride());
   app.use(session({
     secret: 'wolololo',
-    resave: false,
-    saveUninitialized: true,
     cookie: { secure: true }
   }));
 

@@ -27,9 +27,11 @@ router.post('/', function(req, res, next){
       res.send('Wrong password!')
     }
     else{
-      var sesh = req.session;
-      sesh.user = user;
-      res.json(user);
+      req.session.cookie.user_id = user._id;
+      req.session.save(function(err){
+        console.log(req.session)
+        res.json(user);
+      })
     }
 
   })
