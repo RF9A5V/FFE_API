@@ -7,7 +7,7 @@ var express = require('express'),
 appEnv = cfenv.getAppEnv();
 instance = appEnv.app.instance_index || 0
 
-console.log(process.env.NODE_ENV)
+
 
 mongoose.connect(config.db);
 var db = mongoose.connection;
@@ -26,5 +26,6 @@ require('./config/express')(app, config, mongoose);
 var port = appEnv.port;
 
 app.listen(port, function () {
+  console.log(process.env.NODE_ENV || 'undef')
   console.log('Express server listening on port ' + appEnv.url);
 });
