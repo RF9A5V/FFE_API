@@ -32,18 +32,28 @@ router.post('/create', function(req, res, next){
     res.json({error: "You are not logged in.", status: "error"})
   }
   else {
-    var item = new Item(req.body);
-    console.log(item);
-    item.owner = req.session.uid;
-    item.created_time = Date.now();
-    item.updated_time = Date.now();
-    item.save(function(err){
-      if (err){
-        console.log(err)
-        return res.send(err)
+    User.findOne({'_id': req.session.uid}, function(err,user) {
+      if (err) res.send(err);
+      if (user == null) res.json({ status: "error", message: "This user does not exist" });
+      else {
+        var item = new Item(req.body);
+        item.owner = req.session.uid;
+        item.created_time = Date.now();
+        item.updated_time = Date.now();
+        item.save(function(err){
+          if (err){
+            console.log(err)
+            return res.send(err)
+          }
+          res.json({status: "success", message: "Successfully created item!"})
+        });
+
+        (user.owned_items).push(item._id);
+        console.log(user);
+        user.save();
       }
-      res.json({status: "success", message: "Successfully created item!"})
-    })
+      
+    });
   }
 })
 
@@ -93,6 +103,18 @@ router.get('/:id', function(req, res, next){
       })
     })
   })
+})
+
+router.get('/my_listings/:id', function(req, res, next){
+  Item.find({ 'owner': req.params.id }, function(err, listings){
+    if(err) res.send(err)
+    if(listings == null){
+      res.json({ status: "error", message: "This user does not have any listing" });
+    }
+    else {
+      res.json(listings);
+    }
+  });
 })
 
 router.post('/:id/like', function(req, res, next){
