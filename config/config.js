@@ -22,7 +22,7 @@ var config = {
   },
 
   production: {
-    db: 'mongodb://portaluser:portal123@ffe-db:23130/ffe-db'
+    db: "mongodb://addy:password@candidate.56.mongolayer.com:10543,candidate.55.mongolayer.com:10582/fe-app?replicaSet=set-5651c4e5354ad9bd78000a22"
   }
 };
 
