@@ -27,13 +27,13 @@ router.post('/create', function(req, res, next){
 
   console.log(req.session);
 
-  if(req.session.uid == undefined) {
+  if(uid == undefined) {
     console.log("Session info: [undefined]" + req.session)
     res.json({error: "You are not logged in.", status: "error"})
   }
   else {
     var item = new Item(req.body);
-    item.owner = req.session.uid
+    item.owner = uid
     item.save(function(err){
       if (err){
         return res.send(err)
@@ -59,9 +59,9 @@ router.get('/:id', function(req, res, next){
   })
 })
 
-router.get('/:id/like', function(req, res, next){
-
-  if(req.session.uid == undefined){
+router.post('/:id/like', function(req, res, next){
+  uid = req.body.uid;
+  if(uid == undefined){
     res.json({ status: "error", message: "You need to be logged into like things." })
     next();
   }
@@ -75,7 +75,7 @@ router.get('/:id/like', function(req, res, next){
     }
     removed = false;
     for(var i = 0; i < item.interested_count.length; i ++){
-      if(item.interested_count[i]._id == req.session.uid){
+      if(item.interested_count[i]._id == uid){
         item.interested_count.splice(i, 1);
         item.save(function(err){
           removed = true;
@@ -85,7 +85,7 @@ router.get('/:id/like', function(req, res, next){
       }
     }
     if(!removed){
-      User.findOne({ "_id": req.session.uid }, function(err, user){
+      User.findOne({ "_id": uid }, function(err, user){
         if(err) res.json({status:"error", message: err})
         item.interested_count.push(user)
         item.save(function(err) {
