@@ -13,7 +13,6 @@ router.get('/', function (req, res, next) {
     if(err){
       return res.send(err);
     }
-    console.log(req.session)
     res.json(items)
 
   })
@@ -26,18 +25,18 @@ router.get('/new', function(req, res, next){
 
 router.post('/create', function(req, res, next){
 
-  if(req.session.user == undefined) {
+  if(req.session.uid == undefined) {
     console.log(req.session)
-    res.send("It busted")
+    res.json({error: "You are not logged in.", status: "error"})
   }
   else {
     var item = new Item(req.body);
-    item.owner = req.session.user._id
+    item.owner = req.session.uid
     item.save(function(err){
       if (err){
         return res.send(err)
       }
-      res.send({message: 'Item created!'})
+      res.json({status: "success", message: "Successfully created item!"})
     })
   }
 })
@@ -45,11 +44,14 @@ router.post('/create', function(req, res, next){
 router.get('/:id', function(req, res, next){
   Item.findOne({ '_id': req.params.id }, function(err, item){
     if(err) res.send(err)
+    if(item == null){
+      res.json({ status: "error", message: "Item with ID does not exist" })
+    }
     User.findOne({ '_id': item.owner }, function(err, user){
       if(err) res.send(err)
-      res.render('items/show', {
+      res.json({
         item: item,
-        owner: owner
+        owner: user
       })
     })
   })

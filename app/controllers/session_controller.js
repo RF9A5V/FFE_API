@@ -11,12 +11,21 @@ module.exports = function (app) {
 };
 
 router.get('/', function(req, res, next){
+  if(req.session.uid != undefined){
+    res.json({ status: "error", message: "You are already logged in!" })
+    next();
+  }
   res.render('sessions/new')
 })
 
 router.post('/', function(req, res, next){
   var email = req.body.email,
       password = req.body.password;
+
+  if(req.session.uid != undefined){
+    res.json({ status: "error", message: "You are already logged in!" })
+    next();
+  }
 
   User.findOne({email: email}, function(err, user){
     if(err) res.send(err);
