@@ -2,7 +2,6 @@ var express = require('express'),
   router = express.Router(),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
-  Session = mongoose.model('Session'),
   hasher = require('password-hash'),
   crypto = require('crypto');
 
@@ -34,28 +33,24 @@ router.post('/', function(req, res, next){
     if(err) res.send(err);
     if(user == null){
       console.log("Couldn't log you in!");
-      res.send("Couldn't log you in!");
+      return res.send("Couldn't log you in!");
     }
     else if(!hasher.verify(password, user.password)){
       console.log('Wrong password!');
-      res.send('Wrong password!')
+      return res.send('Wrong password!')
     }
     else{
       console.log('Session saved!');
       req.session.uid = user._id;
       console.log(user._id);
       console.log(req.session)
-      req.session.save(function(err){
-        console.log(req.session)
-        res.json(user);
-
-      })
+      return res.json(user);
     }
 
   })
 })
 
-router.get('/destroy', function(req, res, next){
+router.post('/destroy', function(req, res, next){
   req.session.uid = undefined;
   res.json({ status: "success", message: "Successfully logged out" })
 })
