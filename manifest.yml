@@ -1,0 +1,5 @@
+---
+applications:
+- name: ffe-api
+  memory: 512M
+  host: ffe-api
