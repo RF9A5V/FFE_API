@@ -22,7 +22,10 @@ router.post('/', function(req, res, next){
   var email = req.body.email,
       password = req.body.password;
 
+    console.log("Email: " + email + 'password' + password);
+
   if(req.session.uid != undefined){
+    console.log("You are already logged in!");
     res.json({ status: "error", message: "You are already logged in!" })
     next();
   }
@@ -30,17 +33,22 @@ router.post('/', function(req, res, next){
   User.findOne({email: email}, function(err, user){
     if(err) res.send(err);
     if(user == null){
+      console.log("Couldn't log you in!");
       res.send("Couldn't log you in!");
     }
     else if(!hasher.verify(password, user.password)){
+      console.log('Wrong password!');
       res.send('Wrong password!')
     }
     else{
+      console.log('Session saved!');
       req.session.uid = user._id;
+      console.log(user._id);
       console.log(req.session)
       req.session.save(function(err){
         console.log(req.session)
         res.json(user);
+
       })
     }
 

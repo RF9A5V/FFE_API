@@ -25,8 +25,10 @@ router.get('/new', function(req, res, next){
 
 router.post('/create', function(req, res, next){
 
+  console.log(req.session);
+
   if(req.session.uid == undefined) {
-    console.log(req.session)
+    console.log("Session info: [undefined]" + req.session)
     res.json({error: "You are not logged in.", status: "error"})
   }
   else {
