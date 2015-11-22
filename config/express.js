@@ -18,14 +18,6 @@ module.exports = function(app, config, mongoose) {
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'jade');
 
-  var enableCORS = function(req, res, next){
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
-  }
-
-  app.use(enableCORS);
-
   // app.use(favicon(config.root + '/public/img/favicon.ico'));
   app.use(logger('dev'));
   app.use(bodyParser.json());
