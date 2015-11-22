@@ -7,6 +7,7 @@ applications:
   domain: mybluemix.net
   command: 'node app.js'
   buildpack: nodejs_buildpack
+  command: node app.js
   env:
     env_type: production
     NODE_ENV: production

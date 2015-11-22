@@ -26,6 +26,5 @@ require('./config/express')(app, config, mongoose);
 var port = appEnv.port;
 
 app.listen(port, function () {
-  console.log(process.env.NODE_ENV || 'undef')
   console.log('Express server listening on port ' + appEnv.url);
 });
