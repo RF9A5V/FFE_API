@@ -19,6 +19,9 @@ var app = express();
 
 require('./config/express')(app, config, mongoose);
 
-app.listen(config.port, function () {
-  console.log('Express server listening on port ' + config.port);
+var port = (process.env.VCAP_APP_PORT || 3000);
+var host = (process.env.VCAP_APP_HOST || 'localhost');
+
+app.listen(port, function () {
+  console.log('Express server listening on port ' + port);
 });
