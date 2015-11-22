@@ -4,4 +4,4 @@ applications:
   memory: 512M
   host: ffe-api-reboot
   name: ffe-api-reboot
-  command: node app.js
+  command: export NODE_ENV=production && node app.js

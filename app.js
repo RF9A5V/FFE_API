@@ -1,13 +1,7 @@
 var express = require('express'),
   config = require('./config/config'),
   glob = require('glob'),
-  mongoose = require('mongoose'),
-  cfenv = require('cfenv');
-
-appEnv = cfenv.getAppEnv();
-instance = appEnv.app.instance_index || 0
-
-
+  mongoose = require('mongoose');
 
 mongoose.connect(config.db);
 var db = mongoose.connection;
@@ -23,8 +17,4 @@ var app = express();
 
 require('./config/express')(app, config, mongoose);
 
-var port = appEnv.port;
-
-app.listen(port, function () {
-  console.log('Express server listening on port ' + appEnv.url);
-});
+app.listen(process.env.VCAP_APP_PORT || 8080);
