@@ -36,6 +36,7 @@ router.post('/create', function(req, res, next){
     console.log(item);
     item.owner = req.session.uid;
     item.created_time = Date.now();
+    item.updated_time = Date.now();
     item.save(function(err){
       if (err){
         console.log(err)
@@ -71,7 +72,7 @@ router.post('/edit/:id', function(req, res, next){
             console.log(err)
             return res.send(err)
           }
-          res.json({status: "success", message: "Successfully created item!"});
+          res.json({status: "success", message: "Successfully updated item!"});
         });
       }
     });

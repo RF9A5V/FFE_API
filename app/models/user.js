@@ -8,6 +8,7 @@ var UserSchema = new Schema({
   email: String,
   password: String,
   telephone: String,
+  wishlist: [String],
   owned_items: [{ type: Schema.Types.ObjectId, ref: 'Item' }]
 });
 
