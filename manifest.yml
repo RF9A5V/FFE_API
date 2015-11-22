@@ -2,12 +2,6 @@
 applications:
 - name: ffe-api
   memory: 512M
-  host: ffe-api
-  name: ffe-api
-  domain: mybluemix.net
-  command: 'node app.js'
-  buildpack: nodejs_buildpack
+  host: ffe-api-reboot
+  name: ffe-api-reboot
   command: node app.js
-  env:
-    env_type: production
-    NODE_ENV: production
