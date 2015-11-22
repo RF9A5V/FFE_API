@@ -7,6 +7,8 @@ var express = require('express'),
 appEnv = cfenv.getAppEnv();
 instance = appEnv.app.instance_index || 0
 
+console.log(process.env.NODE_ENV)
+
 mongoose.connect(config.db);
 var db = mongoose.connection;
 db.on('error', function () {
