@@ -23,7 +23,7 @@ var config = {
 
   production: {
     username: 'portaluser',
-    password: 'portal123'
+    password: 'portal123',
     url: 'mongodb://portaluser:portal123@ffe-db:23130/ffe-db'
   }
 };
