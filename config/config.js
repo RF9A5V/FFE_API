@@ -22,6 +22,11 @@ var config = {
   },
 
   production: {
+    root: rootPath,
+    app: {
+      name: 'ffe-api'
+    },
+    port: 1337,
     db: "mongodb://addy:password@candidate.56.mongolayer.com:10543,candidate.55.mongolayer.com:10582/fe-app?replicaSet=set-5651c4e5354ad9bd78000a22"
   }
 };

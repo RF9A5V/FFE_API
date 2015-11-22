@@ -9,14 +9,13 @@ var compress = require('compression');
 var methodOverride = require('method-override');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
-var path = require('path');
 
 module.exports = function(app, config, mongoose) {
   var env = process.env.NODE_ENV || 'development';
   app.locals.ENV = env;
   app.locals.ENV_DEVELOPMENT = env == 'development';
 
-  app.set('views', path.join(__dirname, 'views/'));
+  app.set('views', config.root + '/app/views');
   app.set('view engine', 'jade');
 
   // app.use(favicon(config.root + '/public/img/favicon.ico'));
@@ -35,7 +34,7 @@ module.exports = function(app, config, mongoose) {
     res.header('Access-Control-Allow-Origin', req.headers.origin || "*");
     res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,HEAD,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'content-Type,x-requested-with');
-    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Credentials', 'true')
     next();
   }
 

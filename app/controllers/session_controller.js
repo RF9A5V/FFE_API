@@ -11,10 +11,10 @@ module.exports = function (app) {
 
 router.get('/', function(req, res, next){
   if(req.session.uid != undefined){
-    res.json({ status: "error", message: "You are already logged in!" })
+    return res.json({ status: "error", message: "You are already logged in!" })
     next();
   }
-  res.render('sessions/new')
+  return res.render('sessions/new')
 })
 
 router.get('/list', function (req, res, next) {
@@ -22,7 +22,7 @@ router.get('/list', function (req, res, next) {
     if(err){
       return res.send(err);
     }
-    res.json(sessions);
+    return res.json(sessions);
   });
 });
 
@@ -34,19 +34,19 @@ router.post('/', function(req, res, next){
 
   if(req.session.uid != undefined){
     console.log("You are already logged in!");
-    res.json({ status: "error", message: "You are already logged in!" })
+    return res.json({ status: "error", message: "You are already logged in!" })
     next();
   }
 
   User.findOne({email: email}, function(err, user){
-    if(err) res.send(err);
+    if(err) return res.send(err);
     if(user == null){
       console.log("Couldn't log you in!");
-      res.send("Couldn't log you in!");
+      return res.send("Couldn't log you in!");
     }
     else if(!hasher.verify(password, user.password)){
       console.log('Wrong password!');
-      res.send('Wrong password!')
+      return res.send('Wrong password!')
     }
     else{
       console.log('Session saved!');
@@ -60,5 +60,5 @@ router.post('/', function(req, res, next){
 
 router.post('/destroy', function(req, res, next){
   req.session.uid = undefined;
-  res.json({ status: "success", message: "Successfully logged out" })
+  return res.json({ status: "success", message: "Successfully logged out" })
 });

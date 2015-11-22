@@ -11,19 +11,19 @@ module.exports = function (app) {
 router.get('/', function(req, res, next){
   User.find(function(err, users){
     if(err){
-      res.send(err);
+      return res.send(err);
     }
-    res.json(users)
+    return res.json(users)
   })
 });
 
 router.get('/validate', function(req, res, next){
   console.log(req.session.uid);
-  res.json({uid:req.session.uid});
+  return res.json({uid:req.session.uid});
 });
 
 router.get('/new', function(req, res, next){
-  res.render('users/new')
+  return res.render('users/new')
 });
 
 router.post('/create', function(req, res, next){
@@ -33,12 +33,12 @@ router.post('/create', function(req, res, next){
     if(err){
       return res.send(err);
     }
-    res.send({ status: "success", message: 'New user created', uid: user._id })
+    return res.send({ status: "success", message: 'New user created', uid: user._id })
   })
 })
 
 router.get('/:id', function (req, res, next) {
-  res.render('users/show', {
+  return res.render('users/show', {
     id: req.params.id
   });
 });
