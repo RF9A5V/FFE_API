@@ -33,8 +33,9 @@ router.post('/create', function(req, res, next){
   }
   else {
     var item = new Item(req.body);
-    console.log(item)
-    item.owner = req.session.uid
+    console.log(item);
+    item.owner = req.session.uid;
+    item.created_time = Date.now();
     item.save(function(err){
       if (err){
         console.log(err)
@@ -44,6 +45,38 @@ router.post('/create', function(req, res, next){
     })
   }
 })
+
+router.post('/edit/:id', function(req, res, next){
+  console.log(req.session);
+  
+  if(req.session.uid == undefined) {
+    console.log("Session info: [undefined]" + req.session)
+    res.json({error: "You are not logged in.", status: "error"})
+  }
+  else {
+    Item.findOne({'_id': req.params.id}, function(err,item) {
+      if (err) res.send(err);
+      if (item == null) res.json({ status: "error", message: "Item with ID does not exist" });
+      else {
+        item.title = req.body.title;
+        item.description = req.body.description;
+        item.location = req.body.location;
+        item.category = req.body.category;
+        item.is_taken = req.body.is_taken;
+        item.tags = req.body.tags;
+        item.updated_time = Date.now();
+
+        item.save(function(err){
+          if (err){
+            console.log(err)
+            return res.send(err)
+          }
+          res.json({status: "success", message: "Successfully created item!"});
+        });
+      }
+    });
+  }
+});
 
 router.get('/:id', function(req, res, next){
   Item.findOne({ '_id': req.params.id }, function(err, item){

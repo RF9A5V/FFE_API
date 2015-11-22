@@ -11,12 +11,9 @@ var ItemSchema = new Schema({
   category: String,
   is_taken: Boolean,
   interested_users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  tags: [String]
+  tags: [String],
+  created_time: Date,
+  updated_time: Date
 });
-
-ItemSchema.virtual('date')
-  .get(function(){
-    return this._id.getTimestamp();
-  });
 
 mongoose.model('Item', ItemSchema);
