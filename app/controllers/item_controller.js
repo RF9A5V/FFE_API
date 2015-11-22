@@ -154,9 +154,10 @@ router.post('/:id/like', function(req, res, next){
   })
 })
 
-router.delete('/delete/:id', function(req, res, next){
+router.delete('/:id/delete/', function(req, res, next){
   Item.findByIdAndRemove(req.params.id, function(err, item){
     if(err) return res.send(err);
+    if(item == null) return res.send("Item doesn't exist")
     User.findById(item.owner, function(err, user){
       index = user.owned_items.indexOf(item._id);
       if(index >= 0){
