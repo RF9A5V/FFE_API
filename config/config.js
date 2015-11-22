@@ -26,8 +26,8 @@ var config = {
     app: {
       name: 'ffe-api'
     },
-    port: 1337,
-    db: 'mongodb://localhost/ffe-api-production'
+    port: require('cfenv').getAppEnv().port,
+    db: 'mongodb://portaluser:portal123@ffe-db:23130/ffe-db'
   }
 };
 
