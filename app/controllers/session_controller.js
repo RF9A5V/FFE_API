@@ -10,7 +10,7 @@ module.exports = function (app) {
 };
 
 router.get('/', function(req, res, next){
-  if(req.session.uid != undefined){
+  if(uid != undefined){
     res.json({ status: "error", message: "You are already logged in!" })
     next();
   }
@@ -29,10 +29,11 @@ router.get('/list', function (req, res, next) {
 router.post('/', function(req, res, next){
   var email = req.body.email,
       password = req.body.password;
+      uid = req.body.uid;
 
     console.log("Email: " + email + 'password' + password);
 
-  if(req.session.uid != undefined){
+  if(uid != undefined){
     console.log("You are already logged in!");
     res.json({ status: "error", message: "You are already logged in!" })
     next();
@@ -42,24 +43,24 @@ router.post('/', function(req, res, next){
     if(err) res.send(err);
     if(user == null){
       console.log("Couldn't log you in!");
-      return res.send("Couldn't log you in!");
+      res.send("Couldn't log you in!");
     }
     else if(!hasher.verify(password, user.password)){
       console.log('Wrong password!');
-      return res.send('Wrong password!')
+      res.send('Wrong password!')
     }
     else{
       console.log('Session saved!');
-      req.session.uid = user._id;
+      uid = user._id;
       console.log(user._id);
       console.log(req.session)
-      return res.json(user);
+      res.json({user_id: user._id});
     }
 
   })
 })
 
 router.post('/destroy', function(req, res, next){
-  req.session.uid = undefined;
+  uid = undefined;
   res.json({ status: "success", message: "Successfully logged out" })
 })

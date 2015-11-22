@@ -7,8 +7,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var compress = require('compression');
 var methodOverride = require('method-override');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+//var session = require('express-session');
+//var MongoStore = require('connect-mongo')(session);
 
 module.exports = function(app, config, mongoose) {
   var env = process.env.NODE_ENV || 'development';
@@ -17,6 +17,14 @@ module.exports = function(app, config, mongoose) {
 
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'jade');
+
+  var enableCORS = function(req, res, next){
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+  }
+
+  app.use(enableCORS);
 
   // app.use(favicon(config.root + '/public/img/favicon.ico'));
   app.use(logger('dev'));
@@ -29,20 +37,12 @@ module.exports = function(app, config, mongoose) {
   app.use(express.static(config.root + '/public'));
   app.use(methodOverride());
 
-  var enableCORS = function(req, res, next){
-    res.header('Access-Control-Allow-Origin', 'localhost:8100');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
-  }
-
-  app.use(enableCORS);
-
-  app.use(session({
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
-    resave: true,
-    saveUninitialized: true,
-    secret: 'super_secret'
-  }));
+  // app.use(session({
+  //   store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  //   resave: true,
+  //   saveUninitialized: true,
+  //   secret: 'super_secret'
+  // }));
 
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
   controllers.forEach(function (controller) {
