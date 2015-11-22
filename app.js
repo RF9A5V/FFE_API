@@ -19,7 +19,7 @@ var app = express();
 
 require('./config/express')(app, config, mongoose);
 
-var port = (process.env.VCAP_APP_PORT || 3000);
+var port = (process.env.VCAP_APP_PORT || 1337);
 var host = (process.env.VCAP_APP_HOST || 'localhost');
 
 app.listen(port, function () {

@@ -3,3 +3,5 @@ applications:
 - name: ffe-api
   memory: 512M
   host: ffe-api
+  env:
+    env_type: production
