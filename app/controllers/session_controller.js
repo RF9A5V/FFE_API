@@ -51,8 +51,8 @@ router.post('/', function(req, res, next){
     else{
       console.log('Session saved!');
       req.session.uid = user._id;
-      console.log(user._id);
-      console.log(req.session)
+      console.log(req.session.uid);
+      console.log(req.session);
       return res.json(user);
     }
 
@@ -62,4 +62,4 @@ router.post('/', function(req, res, next){
 router.post('/destroy', function(req, res, next){
   req.session.uid = undefined;
   res.json({ status: "success", message: "Successfully logged out" })
-})
+});

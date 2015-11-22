@@ -15,11 +15,16 @@ router.get('/', function(req, res, next){
     }
     res.json(users)
   })
-})
+});
+
+router.get('/validate', function(req, res, next){
+  console.log(req.session.uid);
+  res.json({uid:req.session.uid});
+});
 
 router.get('/new', function(req, res, next){
   res.render('users/new')
-})
+});
 
 router.post('/create', function(req, res, next){
   var user = new User(req.body);
