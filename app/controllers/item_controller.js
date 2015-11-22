@@ -153,3 +153,17 @@ router.post('/:id/like', function(req, res, next){
     }
   })
 })
+
+router.delete('/delete/:id', function(req, res, next){
+  Item.findByIdAndRemove(req.params.id, function(err, item){
+    if(err) return res.send(err);
+    User.findById(item.owner, function(err, user){
+      index = user.owned_items.indexOf(item._id);
+      if(index >= 0){
+        user.owned_items = user.owned_items.splice(index, 1);
+        user.save();
+      }
+    })
+    return res.json({status: "success", message: "Successfully deleted item."});
+  })
+})
