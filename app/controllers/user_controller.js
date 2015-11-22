@@ -72,6 +72,16 @@ router.get('/validate', function(req, res, next){
   return res.json({uid:req.session.uid});
 });
 
+router.get('/find/:id', function(req, res, next){
+  User.findOne({_id: req.params.id}, function(err,user) {
+    if (err) res.send(err);
+    if (user == null) res.json({ status: "error", message: "User with ID does not exist" });
+    else {
+      res.json(user);
+    }
+  });
+});
+
 router.get('/new', function(req, res, next){
   return res.render('users/new')
 });
