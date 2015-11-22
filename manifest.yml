@@ -9,3 +9,4 @@ applications:
   buildpack: nodejs_buildpack
   env:
     env_type: production
+    NODE_ENV: production
