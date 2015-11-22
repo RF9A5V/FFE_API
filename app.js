@@ -17,7 +17,7 @@ models.forEach(function (model) {
 });
 var app = express();
 
-require('./config/express')(app, config);
+require('./config/express')(app, config, mongoose);
 
 app.listen(config.port, function () {
   console.log('Express server listening on port ' + config.port);

@@ -27,7 +27,8 @@ router.post('/', function(req, res, next){
       res.send('Wrong password!')
     }
     else{
-      req.session.cookie.user_id = user._id;
+      req.session.uid = user._id;
+      console.log(req.session)
       req.session.save(function(err){
         console.log(req.session)
         res.json(user);

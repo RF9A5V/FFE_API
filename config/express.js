@@ -8,8 +8,9 @@ var bodyParser = require('body-parser');
 var compress = require('compression');
 var methodOverride = require('method-override');
 var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
-module.exports = function(app, config) {
+module.exports = function(app, config, mongoose) {
   var env = process.env.NODE_ENV || 'development';
   app.locals.ENV = env;
   app.locals.ENV_DEVELOPMENT = env == 'development';
@@ -27,10 +28,6 @@ module.exports = function(app, config) {
   app.use(compress());
   app.use(express.static(config.root + '/public'));
   app.use(methodOverride());
-  app.use(session({
-    secret: 'wolololo',
-    cookie: { secure: true }
-  }));
 
   var enableCORS = function(req, res, next){
     res.header('Access-Control-Allow-Origin', '*');
@@ -38,6 +35,13 @@ module.exports = function(app, config) {
   }
 
   app.use(enableCORS);
+
+  app.use(session({
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    resave: true,
+    saveUninitialized: true,
+    secret: 'super_secret'
+  }));
 
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
   controllers.forEach(function (controller) {
