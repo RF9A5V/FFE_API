@@ -22,12 +22,9 @@ var config = {
   },
 
   production: {
-    root: rootPath,
-    app: {
-      name: 'ffe-api'
-    },
-    port: require('cfenv').getAppEnv().port,
-    db: 'mongodb://portaluser:portal123@localhost:23130/ffe-db'
+    username: 'portaluser',
+    password: 'portal123'
+    url: 'mongodb://portaluser:portal123@ffe-db:23130/ffe-db'
   }
 };
 
