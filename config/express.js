@@ -29,12 +29,23 @@ module.exports = function(app, config, mongoose) {
   app.use(express.static(config.root + '/public'));
   app.use(methodOverride());
 
-  // app.use(session({
-  //   store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  //   resave: true,
-  //   saveUninitialized: true,
-  //   secret: 'super_secret'
-  // }));
+
+  var enableCORS = function(req, res, next){
+    res.header('Access-Control-Allow-Origin', req.headers.origin || "*");
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,HEAD,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'content-Type,x-requested-with');
+    res.header('Access-Control-Allow-Credentials', 'true')
+    next();
+  }
+
+  app.use(enableCORS);
+
+  app.use(session({
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    resave: true,
+    saveUninitialized: true,
+    secret: 'super_secret'
+  }));
 
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
   controllers.forEach(function (controller) {
