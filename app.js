@@ -5,6 +5,10 @@ var express = require('express'),
   glob = require('glob'),
   mongoose = require('mongoose');
 
+if(process.env.VCAP_APPLICATION != undefined){
+  process.env.NODE_ENV = "production";
+}
+
 mongoose.connect(config.db);
 var db = mongoose.connection;
 db.on('error', function () {
